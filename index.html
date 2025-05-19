@@ -2,167 +2,173 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>时空情书·520专属宇宙</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>To My Sunshine 🌹</title>
     <style>
         :root {
-            --primary: #ff69b4;
-            --secondary: #ff85c0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --pink: #ff7bac;
+            --gold: #ffd700;
         }
 
         body {
-            font-family: 'Microsoft YaHei', cursive;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-            overflow: hidden;
-        }
-
-        .page {
-            width: 100vw;
+            margin: 0;
             height: 100vh;
-            position: fixed;
-            opacity: 0;
-            transition: 1s;
+            background: linear-gradient(45deg, #ffb6c1 0%, #ff69b4 100%);
+            font-family: 'Segoe UI', 'Microsoft YaHei', cursive;
+            overflow: hidden;
+            touch-action: pan-y;
+            position: relative;
+        }
+
+        .container {
+            perspective: 1000px;
             padding: 20px;
-            pointer-events: none;
         }
 
-        .page.active {
-            opacity: 1;
-            pointer-events: all;
+        .love-letter {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 30px;
+            transform: rotateY(15deg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: 1s;
+            margin-bottom: 30px;
         }
 
-        /* 心跳动画 */
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .heart {
+            width: 60px;
+            height: 60px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHBhdGggZmlsbD0iI2ZmNDI1YiIgZD0iTTEyOCAyNC45QzExMS40IDMuOCA4My4zLTEwLjQgNTYuMiA2LjRjLTE4LjQgMTEuOC0yNi4yIDM1LjYtMjEuNCA1NS45IDMuNCAxOC4xIDEzLjEgMzMuMyA0Mi43IDY2LjcgMjkuMi0zMy4xIDM5LjEtNDguNiA0Mi41LTY2LjcgNC44LTIwLjMtMy4xLTQ0LjEtMjEuNS01NS45LTMyLjEtMTYuOC02MC4xLTEuNi03Ni42IDE4LjV6Ii8+PC9zdmc+') no-repeat center;
+            background-size: contain;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hidden-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+            text-align: center;
         }
 
         .photo-wall {
             display: grid;
-            grid-template-columns: repeat(2,1fr);
-            gap: 15px;
-            max-width: 600px;
-            margin: 20px auto;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        .photo-item {
-            aspect-ratio: 1;
-            background: #fff;
-            border-radius: 15px;
-            overflow: hidden;
-            transform: rotate(0deg);
-            transition: .5s cubic-bezier(0.4, 0, 0.2, 1);
+        .photo {
+            width: 100%;
+            height: 100px;
+            background: #ddd;
+            border-radius: 10px;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=');
+            transition: 0.5s;
+        }
+
+        .photo:hover {
+            transform: scale(1.1);
+        }
+
+        button {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
             cursor: pointer;
+            transition: 0.3s;
+            margin: 10px;
         }
 
-        .photo-item:hover {
-            transform: rotate(3deg) scale(1.05);
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255,123,172,0.5);
         }
 
-        /* 更多样式已整合到元素中 */
+        .heartbeat {
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.2); }
+            50% { transform: scale(0.9); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
-    <!-- 页面1：启动页 -->
-    <div class="page active" id="page1">
-        <h1 style="text-align:center;margin-top:30vh;color:var(--primary);
-                  text-shadow:0 0 30px rgba(255,255,255,0.8);animation:heartbeat 1.5s infinite">
-            💖 我们的520宇宙 💖
-        </h1>
-        <button onclick="navigate(2)" style="position:fixed;bottom:30%;left:50%;transform:translateX(-50%);
-                padding:15px 30px;border-radius:30px;background:var(--primary);
-                color:white;border:none;font-size:1.2em;cursor:pointer;box-shadow:0 5px 20px rgba(255,105,180,0.4)">
-            点击开启时光隧道 🌌
-        </button>
-    </div>
-
-    <!-- 页面2：记忆画廊 -->
-    <div class="page" id="page2">
-        <div class="photo-wall">
-            <div class="photo-item" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P4z8DwHwAFAAH/JLQ+8AAAAABJRU5ErkJggg==')"></div>
-            <!-- 重复3个图片占位符 -->
+    <audio id="bgm" src="https://cdn.pixabay.com/download/audio/2022/02/14/audio_5e8faa7c0c.mp3"></audio>
+    
+    <div class="container">
+        <div class="love-letter heartbeat">
+            <h1 style="color:var(--pink);text-align:center">❤️ 致我的唯一 ❤️</h1>
+            <p>亲爱的<mark style="background:var(--pink);color:white;padding:3px">[你的名字]</mark>：</p>
+            <p>当我第一次见到你时，就像<span style="color:var(--pink)">樱花遇见春天</span>...</p>
+            <div class="photo-wall">
+                <div class="photo"></div>
+                <div class="photo"></div>
+                <div class="photo"></div>
+            </div>
+            <button onclick="showMessage()">点击查看惊喜</button>
         </div>
-        <button onclick="navigate(3)" class="floating-btn">🎶 聆听我们的旋律 →</button>
     </div>
 
-    <!-- 页面3：心动频率 -->
-    <div class="page" id="page3">
-        <audio id="loveSong" loop>
-            <source src="data:audio/mpeg;base64,//uQxAAAAAAAAAAAAA...">
-        </audio>
-        <div id="lyrics" style="text-align:center;margin-top:10vh;font-size:1.2em;color:#fff">
-            🎵 这是属于我们的旋律...
-        </div>
-        <button onclick="navigate(4)" style="position:fixed;bottom:20%;left:50%;transform:translateX(-50%);
-                background:linear-gradient(45deg, #ff6b6b, #ff8e8e);padding:15px 40px;
-                border-radius:30px;color:white;border:none;font-size:1.1em">
-            ✉️ 开启最后密信
-        </button>
+    <div class="hidden-message" id="secret">
+        <h2 style="color:var(--pink)">我们的时光机</h2>
+        <p>🎵 这是我们最爱的歌：<br>
+        <audio controls style="margin:15px">
+            <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630d0993.mp3" type="audio/mpeg">
+        </audio></p>
+        <button onclick="createHearts()">❤️ 永恒之爱 ❤️</button>
     </div>
 
-    <!-- 页面4：永恒契约 -->
-    <div class="page" id="page4">
-        <div style="max-width:600px;margin:20px auto;background:rgba(255,255,255,0.9);
-                  padding:30px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,0,0.1)">
-            <p style="font-size:1.2em;line-height:2;color:#333">
-                <span style="color:var(--primary)">❤ 亲爱的小可爱：</span><br>
-                这是我们一起走过的第<span id="daysCounter" style="color:var(--primary)"></span>天<br>
-                每天清晨醒来第一个想到的是你<br>
-                每次看到有趣事物第一个想分享的是你<br>
-                ...<br>
-                <span style="display:inline-block;margin-top:20px">永远爱你的 XXX</span>
-            </p>
-        </div>
-        <div id="heartRain"></div>
-    </div>
-
-<script>
-    // 系统初始化
-    let currentPage = 1;
-    const startDate = new Date('2022-05-20'); // 修改为你们的重要日期
-
-    // 页面导航
-    function navigate(page) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        currentPage = page;
-        document.getElementById(`page${page}`).classList.add('active');
-
-        if(page === 3) {
-            const audio = document.getElementById('loveSong');
-            audio.play().catch(() => {
-                alert('请点击页面任意位置开始播放音乐');
-                document.body.onclick = () => audio.play();
-            });
+    <script>
+        let audio = document.getElementById('bgm');
+        
+        // 创建爱心雨
+        function createHearts() {
+            for(let i=0; i<99; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart floating';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(heart);
+            }
+            audio.play();
         }
-        if(page === 4) showLoveDays();
-    }
 
-    // 计算相爱天数
-    function showLoveDays() {
-        const diff = Date.now() - startDate.getTime();
-        document.getElementById('daysCounter').textContent =
-            Math.floor(diff / (1000 * 60 * 60 * 24));
-    }
+        function showMessage() {
+            document.getElementById('secret').style.display = 'block';
+            document.querySelector('.love-letter').style.transform = 'rotateY(0deg) scale(0.9)';
+        }
 
-    // 初始化爱心雨
-    function createHeart() {
-        const heart = document.createElement('div');
-        heart.style = `position:fixed;color:var(--primary);
-            font-size:20px;pointer-events:none;animation: fall 3s linear`;
-        heart.innerHTML = '❤';
-        document.getElementById('heartRain').appendChild(heart);
-
-        heart.style.left = Math.random() * 100 + 'vw';
-        setTimeout(() => heart.remove(), 3000);
-    }
-
-    // 启动爱心雨
-    setInterval(createHeart, 300);
-</script>
+        // 触摸爱心互动
+        document.addEventListener('click', function(e) {
+            if(e.target.classList.contains('heart')) {
+                e.target.style.transform = 'scale(1.5)';
+                setTimeout(() => e.target.remove(), 500);
+            }
+        });
+    </script>
 </body>
 </html>
