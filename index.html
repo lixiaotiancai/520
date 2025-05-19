@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>时空情书·520专属宇宙</title>
+    <style>
+        :root {
+            --primary: #ff69b4;
+            --secondary: #ff85c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', cursive;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            overflow: hidden;
+        }
+
+        .page {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            opacity: 0;
+            transition: 1s;
+            padding: 20px;
+            pointer-events: none;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* 心跳动画 */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .photo-wall {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            transform: rotate(0deg);
+            transition: .5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .photo-item:hover {
+            transform: rotate(3deg) scale(1.05);
+        }
+
+        /* 更多样式已整合到元素中 */
+    </style>
+</head>
+<body>
+    <!-- 页面1：启动页 -->
+    <div class="page active" id="page1">
+        <h1 style="text-align:center;margin-top:30vh;color:var(--primary);
+                  text-shadow:0 0 30px rgba(255,255,255,0.8);animation:heartbeat 1.5s infinite">
+            💖 我们的520宇宙 💖
+        </h1>
+        <button onclick="navigate(2)" style="position:fixed;bottom:30%;left:50%;transform:translateX(-50%);
+                padding:15px 30px;border-radius:30px;background:var(--primary);
+                color:white;border:none;font-size:1.2em;cursor:pointer;box-shadow:0 5px 20px rgba(255,105,180,0.4)">
+            点击开启时光隧道 🌌
+        </button>
+    </div>
+
+    <!-- 页面2：记忆画廊 -->
+    <div class="page" id="page2">
+        <div class="photo-wall">
+            <div class="photo-item" style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P4z8DwHwAFAAH/JLQ+8AAAAABJRU5ErkJggg==')"></div>
+            <!-- 重复3个图片占位符 -->
+        </div>
+        <button onclick="navigate(3)" class="floating-btn">🎶 聆听我们的旋律 →</button>
+    </div>
+
+    <!-- 页面3：心动频率 -->
+    <div class="page" id="page3">
+        <audio id="loveSong" loop>
+            <source src="data:audio/mpeg;base64,//uQxAAAAAAAAAAAAA...">
+        </audio>
+        <div id="lyrics" style="text-align:center;margin-top:10vh;font-size:1.2em;color:#fff">
+            🎵 这是属于我们的旋律...
+        </div>
+        <button onclick="navigate(4)" style="position:fixed;bottom:20%;left:50%;transform:translateX(-50%);
+                background:linear-gradient(45deg, #ff6b6b, #ff8e8e);padding:15px 40px;
+                border-radius:30px;color:white;border:none;font-size:1.1em">
+            ✉️ 开启最后密信
+        </button>
+    </div>
+
+    <!-- 页面4：永恒契约 -->
+    <div class="page" id="page4">
+        <div style="max-width:600px;margin:20px auto;background:rgba(255,255,255,0.9);
+                  padding:30px;border-radius:20px;box-shadow:0 0 30px rgba(0,0,0,0.1)">
+            <p style="font-size:1.2em;line-height:2;color:#333">
+                <span style="color:var(--primary)">❤ 亲爱的小可爱：</span><br>
+                这是我们一起走过的第<span id="daysCounter" style="color:var(--primary)"></span>天<br>
+                每天清晨醒来第一个想到的是你<br>
+                每次看到有趣事物第一个想分享的是你<br>
+                ...<br>
+                <span style="display:inline-block;margin-top:20px">永远爱你的 XXX</span>
+            </p>
+        </div>
+        <div id="heartRain"></div>
+    </div>
+
+<script>
+    // 系统初始化
+    let currentPage = 1;
+    const startDate = new Date('2022-05-20'); // 修改为你们的重要日期
+
+    // 页面导航
+    function navigate(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        currentPage = page;
+        document.getElementById(`page${page}`).classList.add('active');
+
+        if(page === 3) {
+            const audio = document.getElementById('loveSong');
+            audio.play().catch(() => {
+                alert('请点击页面任意位置开始播放音乐');
+                document.body.onclick = () => audio.play();
+            });
+        }
+        if(page === 4) showLoveDays();
+    }
+
+    // 计算相爱天数
+    function showLoveDays() {
+        const diff = Date.now() - startDate.getTime();
+        document.getElementById('daysCounter').textContent =
+            Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    // 初始化爱心雨
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.style = `position:fixed;color:var(--primary);
+            font-size:20px;pointer-events:none;animation: fall 3s linear`;
+        heart.innerHTML = '❤';
+        document.getElementById('heartRain').appendChild(heart);
+
+        heart.style.left = Math.random() * 100 + 'vw';
+        setTimeout(() => heart.remove(), 3000);
+    }
+
+    // 启动爱心雨
+    setInterval(createHeart, 300);
+</script>
+</body>
+</html>
